@@ -43,7 +43,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="email" />
+            <Input allowClear maxLength={100} type="email" placeholder="Enter your email"/>
           </FormItem>
           <FormItem
             name="password"
@@ -55,7 +55,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input maxLength={100} type="password" />
+            <Input maxLength={100} type="password" placeholder="••••••••••••••••"/>
           </FormItem>
         </Form>
 

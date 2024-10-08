@@ -41,7 +41,7 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="text" />
+            <Input allowClear maxLength={100} type="text" placeholder="Enter your name"/>
           </FormItem>
           <FormItem
             name="email"
@@ -53,7 +53,7 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="email" />
+            <Input allowClear maxLength={100} type="email" placeholder="Enter your email"/>
           </FormItem>
           <FormItem
             name="password"
@@ -75,7 +75,7 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input minLength={8} maxLength={100} type="password" />
+            <Input minLength={8} maxLength={100} type="password" placeholder="••••••••••••••••"/>
           </FormItem>
 
           <FormItem
@@ -98,7 +98,7 @@ const SignUp = () => {
               }),
             ]}
           >
-            <Input maxLength={100} type="password" />
+            <Input maxLength={100} type="password" placeholder="••••••••••••••••"/>
           </FormItem>
         </Form>
 
