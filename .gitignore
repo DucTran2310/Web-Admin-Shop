@@ -25,3 +25,4 @@ dist-ssr
 
 'vite.config.ts'
 exampleFirebase.txt
+.env.development

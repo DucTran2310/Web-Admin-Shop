@@ -1,3 +1,4 @@
+import handleAPI from "@/apis/handleAPI";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
 import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd";
 import FormItem from "antd/es/form/FormItem";
@@ -12,8 +13,16 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRemember, setIsRemember] = useState<boolean>(false);
 
-  const handleLogin = (values: { email: string; password: string }) => {
+  const handleLogin = async (values: { email: string; password: string }) => {
     console.log(values);
+    
+    try {
+      const res = await handleAPI('/auth/login', values, 'post')
+
+      console.log('VVVRESPONSE: ', res)
+    } catch (error) {
+      console.log('VVVERROR: ', error)
+    }
   };
 
   return (
@@ -66,6 +75,16 @@ const Login = () => {
               {
                 required: true,
                 message: "Please enter password",
+              },
+              {
+                min: 8,
+                message: "Must be at least 8 characters.",
+              },
+              {
+                pattern:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+                message:
+                  "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
               },
             ]}
           >

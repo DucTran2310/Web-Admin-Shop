@@ -1,5 +1,6 @@
+import handleAPI from "@/apis/handleAPI";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
-import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd";
+import { Button, Card, Checkbox, Form, Input, message, Space, Typography } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,8 +13,20 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRemember, setIsRemember] = useState<boolean>(false);
 
-  const handleLogin = (values: { email: string; password: string }) => {
+  const handleSignup = async (values: { email: string; password: string }) => {
     console.log(values);
+    setIsLoading(true);
+
+    try {
+      const res = await handleAPI("/auth/register", values, "post");
+
+      console.log("VVVRESPONSE: ", res);
+    } catch (error: any) {
+      console.log("VVVERROR: ", error);
+      message.error(error.message)
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -27,7 +40,7 @@ const SignUp = () => {
         <Form
           layout="vertical"
           form={form}
-          onFinish={handleLogin}
+          onFinish={handleSignup}
           disabled={isLoading}
           size="large"
         >
@@ -41,7 +54,12 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="text" placeholder="Enter your name"/>
+            <Input
+              allowClear
+              maxLength={100}
+              type="text"
+              placeholder="Enter your name"
+            />
           </FormItem>
           <FormItem
             name="email"
@@ -53,7 +71,12 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="email" placeholder="Enter your email"/>
+            <Input
+              allowClear
+              maxLength={100}
+              type="email"
+              placeholder="Enter your email"
+            />
           </FormItem>
           <FormItem
             name="password"
@@ -75,7 +98,12 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input minLength={8} maxLength={100} type="password" placeholder="••••••••••••••••"/>
+            <Input
+              minLength={8}
+              maxLength={100}
+              type="password"
+              placeholder="••••••••••••••••"
+            />
           </FormItem>
 
           <FormItem
@@ -98,12 +126,17 @@ const SignUp = () => {
               }),
             ]}
           >
-            <Input maxLength={100} type="password" placeholder="••••••••••••••••"/>
+            <Input
+              maxLength={100}
+              type="password"
+              placeholder="••••••••••••••••"
+            />
           </FormItem>
         </Form>
 
-        <div className="mt-4 mb-3">
+        <div className="mt-5 mb-3">
           <Button
+            loading={isLoading}
             type="primary"
             style={{
               width: "100%",
@@ -111,11 +144,11 @@ const SignUp = () => {
             size="large"
             onClick={() => form.submit()}
           >
-            Login
+            Sign up
           </Button>
         </div>
 
-        <SocialLogin text="Sign up with Google"/>
+        <SocialLogin text="Sign up with Google" />
 
         <div className="mt-3 text-center">
           <Space>
