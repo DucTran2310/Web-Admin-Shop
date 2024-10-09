@@ -10,7 +10,7 @@ const Login = () => {
   const [form] = Form.useForm();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isRemember, setIsRemember] = useState<boolean>(false)
+  const [isRemember, setIsRemember] = useState<boolean>(false);
 
   const handleLogin = (values: { email: string; password: string }) => {
     console.log(values);
@@ -18,9 +18,18 @@ const Login = () => {
 
   return (
     <div>
-      <Card >
-        <div className="text-center">
-          <Title>Login</Title>
+      <Card>
+        <div className="flex flex-col items-center text-center">
+          <img
+            className="mb-3"
+            src="https://firebasestorage.googleapis.com/v0/b/admin-shop-6e6a7.appspot.com/o/Logo_sm.png?alt=media&token=a27b16b6-a1ee-4beb-9faa-556788856b52"
+            alt="logo"
+            style={{
+              width: 48,
+              height: 48,
+            }}
+          />
+          <Title>Log in to your account</Title>
           <Paragraph type="secondary">
             Welcome back! Please enter your details
           </Paragraph>
@@ -28,7 +37,7 @@ const Login = () => {
 
         <Form
           layout="vertical"
-          form={form} 
+          form={form}
           onFinish={handleLogin}
           disabled={isLoading}
           size="large"
@@ -43,7 +52,12 @@ const Login = () => {
               },
             ]}
           >
-            <Input allowClear maxLength={100} type="email" placeholder="Enter your email"/>
+            <Input
+              allowClear
+              maxLength={100}
+              type="email"
+              placeholder="Enter your email"
+            />
           </FormItem>
           <FormItem
             name="password"
@@ -55,7 +69,11 @@ const Login = () => {
               },
             ]}
           >
-            <Input maxLength={100} type="password" placeholder="••••••••••••••••"/>
+            <Input
+              maxLength={100}
+              type="password"
+              placeholder="••••••••••••••••"
+            />
           </FormItem>
         </Form>
 
@@ -69,7 +87,7 @@ const Login = () => {
             </Checkbox>
           </div>
           <div className="col text-right underline">
-            <Link to={'/'}>Forgot password?</Link>
+            <Link to={"/"}>Forgot password?</Link>
           </div>
         </div>
 
@@ -86,13 +104,15 @@ const Login = () => {
           </Button>
         </div>
 
-        <SocialLogin text="Login with Google"/>
+        <SocialLogin text="Login with Google" />
 
         <div className="mt-3 text-center">
-            <Space>
-              <p>Don't have an account?</p>
-              <Link to={'/sign-up'} className="text-blue-600 hover:underline">Sign up</Link>
-            </Space>
+          <Space>
+            <p>Don't have an account?</p>
+            <Link to={"/sign-up"} className="text-blue-600 hover:underline">
+              Sign up
+            </Link>
+          </Space>
         </div>
       </Card>
     </div>
