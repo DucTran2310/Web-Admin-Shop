@@ -1,10 +1,11 @@
-import Routers from "@/routers/Routers"
-import { ConfigProvider } from "antd"
+import store from "@/redux/store";
+import Routers from "@/routers/Routers";
+import { ConfigProvider } from "antd";
+import { Provider } from "react-redux";
 
 function App() {
-
   return (
-    <ConfigProvider 
+    <ConfigProvider
       theme={{
         token: {
           // colorTextHeading: '#1570EF'
@@ -12,10 +13,11 @@ function App() {
         components: {},
       }}
     >
-      <Routers />
+      <Provider store={store}>
+        <Routers />
+      </Provider>
     </ConfigProvider>
-  )
+  );
 }
 
-export default App
- 
+export default App;
