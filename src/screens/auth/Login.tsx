@@ -1,38 +1,44 @@
-import handleAPI from "@/apis/handleAPI"
-import { addAuth } from "@/redux/reducers/authReducer"
-import SocialLogin from "@/screens/auth/components/SocialLogin"
-import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd"
-import FormItem from "antd/es/form/FormItem"
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { Link } from "react-router-dom"
-import { toast } from "react-toastify"
+import handleAPI from "@/apis/handleAPI";
+import { localDataNames } from "@/constants/appInfo";
+import { addAuth } from "@/redux/reducers/authReducer";
+import SocialLogin from "@/screens/auth/components/SocialLogin";
+import { syncLocalStorage } from "@/utils/commonFunction";
+import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd";
+import FormItem from "antd/es/form/FormItem";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const { Title, Paragraph } = Typography
+const { Title, Paragraph } = Typography;
 
 const Login = () => {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const [form] = Form.useForm();
 
-  const [form] = Form.useForm()
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRemember, setIsRemember] = useState<boolean>(false);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isRemember, setIsRemember] = useState<boolean>(false)
-
-  const handleLogin = async (values: { email: string, password: string }) => {
+  const handleLogin = async (values: { email: string; password: string }) => {
     try {
-      const res = await handleAPI('/auth/login', values, 'post')
+      const res = await handleAPI("/auth/login", values, "post");
 
-      res.data && dispatch(addAuth(res.data))
+      res.data && dispatch(addAuth(res.data));
       toast.success(res.message, {
-        position: "top-right"
-      })
+        position: "top-right",
+      });
+      if (isRemember) {
+        syncLocalStorage(localDataNames.authData, res.data);
+      }
     } catch (error: any) {
       toast.error(error.message, {
-        position: "top-right"
-      })
+        position: "top-right",
+      });
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -127,6 +133,7 @@ const Login = () => {
             }}
             size="large"
             onClick={() => form.submit()}
+            loading={isLoading}
           >
             Login
           </Button>
@@ -144,7 +151,7 @@ const Login = () => {
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
