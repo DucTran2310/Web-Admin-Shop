@@ -1,29 +1,38 @@
-import handleAPI from "@/apis/handleAPI";
-import SocialLogin from "@/screens/auth/components/SocialLogin";
-import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd";
-import FormItem from "antd/es/form/FormItem";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import handleAPI from "@/apis/handleAPI"
+import { addAuth } from "@/redux/reducers/authReducer"
+import SocialLogin from "@/screens/auth/components/SocialLogin"
+import { Button, Card, Checkbox, Form, Input, Space, Typography } from "antd"
+import FormItem from "antd/es/form/FormItem"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph } = Typography
 
 const Login = () => {
-  const [form] = Form.useForm();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isRemember, setIsRemember] = useState<boolean>(false);
+  const dispatch = useDispatch()
 
-  const handleLogin = async (values: { email: string; password: string }) => {
-    console.log(values);
-    
+  const [form] = Form.useForm()
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isRemember, setIsRemember] = useState<boolean>(false)
+
+  const handleLogin = async (values: { email: string, password: string }) => {
     try {
       const res = await handleAPI('/auth/login', values, 'post')
 
-      console.log('VVVRESPONSE: ', res)
-    } catch (error) {
-      console.log('VVVERROR: ', error)
+      res.data && dispatch(addAuth(res.data))
+      toast.success(res.message, {
+        position: "top-right"
+      })
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: "top-right"
+      })
     }
-  };
+  }
 
   return (
     <div>
@@ -135,7 +144,7 @@ const Login = () => {
         </div>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

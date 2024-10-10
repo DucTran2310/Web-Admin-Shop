@@ -1,29 +1,36 @@
 import handleAPI from "@/apis/handleAPI";
+import { addAuth } from "@/redux/reducers/authReducer";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
-import { Button, Card, Checkbox, Form, Input, message, Space, Typography } from "antd";
+import { Button, Card, Form, Input, message, Space, Typography } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const { Title, Paragraph } = Typography;
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRemember, setIsRemember] = useState<boolean>(false);
 
   const handleSignup = async (values: { email: string; password: string }) => {
-    console.log(values);
     setIsLoading(true);
 
     try {
       const res = await handleAPI("/auth/register", values, "post");
 
-      console.log("VVVRESPONSE: ", res);
+      if (!res?.error) {
+        toast.success(res.message, {
+          position: "top-right"
+        })
+        dispatch(addAuth(res.data))
+      }
     } catch (error: any) {
-      console.log("VVVERROR: ", error);
-      message.error(error.message)
+      message.error(error.message);
     } finally {
       setIsLoading(false);
     }
