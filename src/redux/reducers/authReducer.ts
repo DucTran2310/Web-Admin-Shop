@@ -28,15 +28,19 @@ const authSlice = createSlice({
   reducers: {
     addAuth: (state, action: PayloadAction<AuthData>) => {
       state.dataAuth = action.payload
+      syncLocalStorage(localDataNames.authData, action.payload)
     },
     removeAuth: (state) => {
       state.dataAuth = initialState.dataAuth
       syncLocalStorage(localDataNames.authData, initialState.dataAuth)
+    },
+    refreshToken: (state, action) => {
+      state.dataAuth.token = action.payload
     }
   },
 })
 
 export const authReducer = authSlice.reducer
-export const { addAuth, removeAuth } = authSlice.actions
+export const { addAuth, removeAuth, refreshToken } = authSlice.actions
 
 export const authSelector = (state: { authReducer: AuthSliceState }) => state.authReducer.dataAuth

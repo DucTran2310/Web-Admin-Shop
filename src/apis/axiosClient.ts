@@ -1,7 +1,15 @@
+import handleAPI from "@/apis/handleAPI";
+import { EXPIRED_TOKEN, localDataNames } from "@/constants/appInfo";
 import axios from "axios";
 import queryString from "query-string";
 
 const baseURL = import.meta.env.VITE_BASE_URL_SERVER;
+
+const getAccessToken = () => {
+  const res = localStorage.getItem(localDataNames.authData);
+
+  return res ? JSON.parse(res).token : "";
+};
 
 const axiosClient = axios.create({
   baseURL,
@@ -9,8 +17,10 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async (config: any) => {
+  const accessToken = getAccessToken();
+
   config.headers = {
-    Authorization: "",
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     ...config.headers,
   };
@@ -29,6 +39,7 @@ axiosClient.interceptors.response.use(
     }
   },
   (error) => {
+    console.log("VVVERRORCONFIG: ", error.response.data);
     return Promise.reject(error.response.data);
   }
 );
