@@ -1,5 +1,4 @@
-import handleAPI from "@/apis/handleAPI";
-import { EXPIRED_TOKEN, localDataNames } from "@/constants/appInfo";
+import { localDataNames } from "@/constants/appInfo";
 import axios from "axios";
 import queryString from "query-string";
 
@@ -20,14 +19,12 @@ axiosClient.interceptors.request.use(async (config: any) => {
   const accessToken = getAccessToken();
 
   config.headers = {
-    Authorization: `Bearer ${accessToken}`,
+    Authorization: accessToken ? `Bearer ${accessToken}` : '',
     Accept: "application/json",
     ...config.headers,
   };
 
-  config.data;
-
-  return config;
+  return {...config, data: config.data ?? null};
 });
 
 axiosClient.interceptors.response.use(
@@ -39,7 +36,6 @@ axiosClient.interceptors.response.use(
     }
   },
   (error) => {
-    console.log("VVVERRORCONFIG: ", error.response.data);
     return Promise.reject(error.response.data);
   }
 );

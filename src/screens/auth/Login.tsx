@@ -53,7 +53,7 @@ const Login = () => {
               height: 48,
             }}
           />
-          <Title>Log in to your account</Title>
+          <Title level={2}>Log in to your account</Title>
           <Paragraph type="secondary">
             Welcome back! Please enter your details
           </Paragraph>
@@ -121,7 +121,7 @@ const Login = () => {
             </Checkbox>
           </div>
           <div className="col text-right underline">
-            <Link to={"/"}>Forgot password?</Link>
+            <Link to={"/"} className="text-admin">Forgot password?</Link>
           </div>
         </div>
 
@@ -134,6 +134,7 @@ const Login = () => {
             size="large"
             onClick={() => form.submit()}
             loading={isLoading}
+            className="bg-admin text-white"
           >
             Login
           </Button>
@@ -144,7 +145,7 @@ const Login = () => {
         <div className="mt-3 text-center">
           <Space>
             <p>Don't have an account?</p>
-            <Link to={"/sign-up"} className="text-blue-600 hover:underline">
+            <Link to={"/sign-up"} className="text-admin hover:underline">
               Sign up
             </Link>
           </Space>

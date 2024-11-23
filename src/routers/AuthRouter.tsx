@@ -17,13 +17,13 @@ const AuthRouter = () => {
               src="https://firebasestorage.googleapis.com/v0/b/admin-shop-6e6a7.appspot.com/o/Logo_sm.png?alt=media&token=a27b16b6-a1ee-4beb-9faa-556788856b52"
             />
           </div>
-          <h1 className="text-4xl font-bold text-center">ADMIN SHOP</h1>
+          <h1 className="text-4xl font-bold text-center text-admin">ADMIN SHOP</h1>
         </div>
 
         <div className="w-full p-6 md:w-3/5">
           <BrowserRouter>
             <Routes>
-              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Login />} />
               <Route path="/sign-up" element={<SignUp />} />
             </Routes>
           </BrowserRouter>
