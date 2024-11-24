@@ -21,7 +21,7 @@ const MainRouter: React.FC = () => (
       <SidebarComponent />
       <Layout>
         <HeaderComponent />
-        <Content className="p-4">
+        <Content className="my-4 mx-8 container bg-white">
           <Routes>
             {ROUTES.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />

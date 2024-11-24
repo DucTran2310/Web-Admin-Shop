@@ -8,7 +8,7 @@ const HeaderComponent = () => {
     <div className="p-2 row bg-white flex items-center justify-between">
       <div className="col w-[50%]">
         <Input
-          placeholder="Search..."
+          placeholder="Search product, supplier, order..."
           style={{
             borderRadius: 100,
             width: '100%',
