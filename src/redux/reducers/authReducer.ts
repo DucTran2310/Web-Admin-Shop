@@ -28,7 +28,6 @@ const authSlice = createSlice({
   reducers: {
     addAuth: (state, action: PayloadAction<AuthData>) => {
       state.dataAuth = action.payload
-      syncLocalStorage(localDataNames.authData, action.payload)
     },
     removeAuth: (state) => {
       state.dataAuth = initialState.dataAuth

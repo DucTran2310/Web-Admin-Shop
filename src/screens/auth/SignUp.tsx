@@ -1,4 +1,4 @@
-import handleAPI from "@/apis/handleAPI";
+import { handleAPI } from "@/apis/handleAPI";
 import { addAuth } from "@/redux/reducers/authReducer";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
 import { Button, Card, Form, Input, message, Space, Typography } from "antd";

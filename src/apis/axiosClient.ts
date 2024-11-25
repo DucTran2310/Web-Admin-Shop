@@ -24,20 +24,19 @@ axiosClient.interceptors.request.use(async (config: any) => {
     ...config.headers,
   };
 
-  return {...config, data: config.data ?? null};
+  return { ...config, data: config.data ?? null };
 });
 
 axiosClient.interceptors.response.use(
-  (res) => {
-    if (res.data && res.status >= 200 && res.status < 300) {
-      return res.data;
-    } else {
-      return Promise.reject(res.data);
-    }
+  (response) => {
+    // Trả về toàn bộ `AxiosResponse` thay vì chỉ `response.data`
+    return response;
   },
   (error) => {
-    return Promise.reject(error.response.data);
+    // Trả về toàn bộ lỗi từ `AxiosResponse`
+    return Promise.reject(error);
   }
 );
+
 
 export default axiosClient;

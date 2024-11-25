@@ -1,4 +1,4 @@
-import handleAPI from "@/apis/handleAPI";
+import { handleAPI } from "@/apis/handleAPI";
 import { localDataNames } from "@/constants/appInfo";
 import { addAuth } from "@/redux/reducers/authReducer";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
@@ -32,7 +32,7 @@ const Login = () => {
         syncLocalStorage(localDataNames.authData, res.data);
       }
     } catch (error: any) {
-      toast.error(error.message, {
+      toast.error('Email hoặc mật khẩu không chính xác vui lòng kiểm tra lại', {
         position: "top-right",
       });
     } finally {
@@ -115,7 +115,7 @@ const Login = () => {
           <div className="col">
             <Checkbox
               checked={isRemember}
-              onChange={(e) => setIsRemember(e.target.checked)}
+              onChange={(e: any) => setIsRemember(e.target.checked)}
             >
               Remember for 7 days
             </Checkbox>

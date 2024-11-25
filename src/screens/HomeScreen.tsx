@@ -1,4 +1,4 @@
-import handleAPI from "@/apis/handleAPI"
+import { handleAPI } from "@/apis/handleAPI"
 import { EXPIRED_TOKEN } from "@/constants/appInfo"
 import { authSelector, refreshToken, removeAuth } from "@/redux/reducers/authReducer"
 import { Button } from "antd"
@@ -18,7 +18,7 @@ const HomeScreen = () => {
       console.log('VVVRES: ', res)
     } catch (error: any) {
       console.log("VVVERR: ", error)
-      if(error.message === EXPIRED_TOKEN) {
+      if (error.message === EXPIRED_TOKEN) {
         handleRefreshToken()
       }
     }
