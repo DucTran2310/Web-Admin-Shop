@@ -35,6 +35,10 @@ const AddSupplier: React.FC<ModalSupplierType> = ({
       isTaking: isLoading ? 1 : 0
     }
 
+    if (file) {
+      console.log('VVVFILE: ', file)
+    }
+
     try {
       console.log(data)
     } catch (error) {
@@ -83,6 +87,7 @@ const AddSupplier: React.FC<ModalSupplierType> = ({
         </div>
       </label>
       <Form
+        requiredMark={false}
         onFinish={addNewSupplier}
         layout="horizontal"
         labelCol={{ span: 6 }}
@@ -93,7 +98,11 @@ const AddSupplier: React.FC<ModalSupplierType> = ({
       >
         <Form.Item
           name={'name'}
-          label="Supplier Name"
+          label={
+            <span>
+              Supplier Name<span style={{ color: 'red' }}> *</span>
+            </span>
+          }
           rules={[{
             required: true,
             message: 'Supplier name is not empty'
@@ -103,7 +112,11 @@ const AddSupplier: React.FC<ModalSupplierType> = ({
         </Form.Item>
         <Form.Item
           name={'product'}
-          label="Product"
+          label={
+            <span>
+              Product<span style={{ color: 'red' }}> *</span>
+            </span>
+          }
           rules={[{
             required: true,
             message: 'Product is not empty'
@@ -113,43 +126,88 @@ const AddSupplier: React.FC<ModalSupplierType> = ({
         </Form.Item>
         <Form.Item
           name={'categories'}
-          label="Category"
-          rules={[{
-            required: true,
-            message: 'Category is not empty'
-          }]}
+          label={
+            <span>
+              Category
+              {/* <span style={{ color: 'red' }}> *</span> */}
+            </span>
+          }
+        // rules={[{
+        //   required: true,
+        //   message: 'Category is not empty'
+        // }]}
         >
           <Select options={[]} placeholder="Enter product category" />
         </Form.Item>
         <Form.Item
-          name={'price'}
-          label="Buying Price"
-          rules={[{
-            required: true,
-            message: 'Buying price is not empty'
-          }]}
+          name="price"
+          label={
+            <span>
+              Buying Price<span style={{ color: 'red' }}> *</span>
+            </span>
+          }
+          rules={[
+            {
+              required: true,
+              message: 'Buying price is not empty',
+            },
+            {
+              pattern: /^[0-9,]*$/,
+              message: 'Buying price must be a valid number',
+            },
+          ]}
         >
-          <Input placeholder="Enter buying price" allowClear />
+          <Input
+            placeholder="Enter buying price"
+            allowClear
+            onChange={(e) => {
+              const value = e.target.value.replace(/,/g, '');
+              if (/^\d*$/.test(value)) {
+                const formattedValue = Number(value).toLocaleString();
+                form.setFieldsValue({ price: formattedValue });
+              }
+            }}
+          />
         </Form.Item>
         <Form.Item
-          name={'contacts'}
-          label="Contact Number"
-          rules={[{
-            required: true,
-            message: 'Contact number is not empty'
-          }]}
+          name="contacts"
+          label={
+            <span>
+              Contact Number<span style={{ color: 'red' }}> *</span>
+            </span>
+          }
+          rules={[
+            {
+              required: true,
+              message: 'Contact number is not empty',
+            },
+            {
+              pattern: /^[0-9]*$/,
+              message: 'Contact number must be a valid number',
+            }
+          ]}
         >
-          <Input placeholder="Enter supplier contact number" allowClear />
+          <Input placeholder="Enter supplier contact number" allowClear 
+            onChange={(e) => {
+              const value = e.target.value.replace(/,/g, '');
+              if (/^\d*$/.test(value)) {
+                form.setFieldsValue({ contacts: value });
+              }
+            }}
+          />
         </Form.Item>
         <Form.Item
           label="Type"
         >
           <div className="mb-2">
             <Button
+              size="middle"
               onClick={() => setIsTaking(false)}
               type={isTaking === false ? 'primary' : "default"}>Not taking return</Button>
           </div>
-          <Button onClick={() => setIsTaking(true)}
+          <Button
+            onClick={() => setIsTaking(true)}
+            size="middle"
             type={isTaking ? 'primary' : 'default'}>Taiking return</Button>
         </Form.Item>
       </Form>

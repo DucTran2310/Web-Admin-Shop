@@ -7,14 +7,10 @@ export const handleAPI = async <T = any>(
   method: "post" | "put" | "get" | "delete" = "get"
 ): Promise<APIResponse<T>> => {
   try {
-    console.log("VVVDATA: ", data);
-
     const response = await axiosClient(url, {
       method,
       data,
     });
-
-    console.log('VVVresponse: ', response)
 
     // Truy cập `response.data` từ `AxiosResponse`
     const apiResponse: APIResponse<T> = {

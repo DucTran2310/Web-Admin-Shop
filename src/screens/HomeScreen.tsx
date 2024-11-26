@@ -17,7 +17,6 @@ const HomeScreen = () => {
 
       console.log('VVVRES: ', res)
     } catch (error: any) {
-      console.log("VVVERR: ", error)
       if (error.message === EXPIRED_TOKEN) {
         handleRefreshToken()
       }
