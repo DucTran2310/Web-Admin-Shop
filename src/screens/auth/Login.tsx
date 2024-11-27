@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { handleAPI } from "@/apis/handleAPI";
 import { localDataNames } from "@/constants/appInfo";
+import { USER_ROUTES } from "@/constants/routes";
 import { addAuth } from "@/redux/reducers/authReducer";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
 import { syncLocalStorage } from "@/utils/commonFunction";
@@ -22,9 +24,11 @@ const Login = () => {
 
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
-      const res = await handleAPI("/auth/login", values, "post");
+      const res = await handleAPI(USER_ROUTES.LOGIN, values, "post");
 
-      res.data && dispatch(addAuth(res.data));
+      if (res.data) {
+        dispatch(addAuth(res.data));
+      }
       toast.success(res.message, {
         position: "top-right",
       });
@@ -32,6 +36,7 @@ const Login = () => {
         syncLocalStorage(localDataNames.authData, res.data);
       }
     } catch (error: any) {
+      console.log('ERROR: ', error)
       toast.error('Email hoặc mật khẩu không chính xác vui lòng kiểm tra lại', {
         position: "top-right",
       });

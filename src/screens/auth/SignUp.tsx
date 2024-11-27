@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { handleAPI } from "@/apis/handleAPI";
+import { USER_ROUTES } from "@/constants/routes";
 import { addAuth } from "@/redux/reducers/authReducer";
 import SocialLogin from "@/screens/auth/components/SocialLogin";
 import { Button, Card, Form, Input, message, Space, Typography } from "antd";
@@ -15,13 +17,12 @@ const SignUp = () => {
   const [form] = Form.useForm();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isRemember, setIsRemember] = useState<boolean>(false);
 
   const handleSignup = async (values: { email: string; password: string }) => {
     setIsLoading(true);
 
     try {
-      const res = await handleAPI("/auth/register", values, "post");
+      const res = await handleAPI(USER_ROUTES.SIGNUP, values, "post");
 
       if (!res?.error) {
         toast.success(res.message, {
