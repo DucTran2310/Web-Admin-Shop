@@ -1,5 +1,6 @@
 import { AddSupplier } from "@/components/modals";
 import { COLORS } from "@/constants/colors";
+import { SupplierModelType } from "@/types/SupplierTypes";
 import { Button, Space, Table, Typography } from "antd"
 import { ColumnProps } from "antd/es/table"
 import { useState } from "react";
@@ -11,7 +12,7 @@ const Suppliers = () => {
 
   const [isVisibleModalAddNew, setIsVisibleModalAddNew] = useState(false)
 
-  const columns: ColumnProps<any>[] = []
+  const columns: ColumnProps<SupplierModelType>[] = []
 
   return (
     <div>
@@ -39,7 +40,7 @@ const Suppliers = () => {
       <AddSupplier
         visible={isVisibleModalAddNew}
         onClose={() => setIsVisibleModalAddNew(false)}
-        onAddNew={(value) => console.log(value)}
+        onAddNew={(value: SupplierModelType) => console.log(value)}
       />
     </div>
   )

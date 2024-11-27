@@ -8,10 +8,18 @@
       "path": "./tsconfig.node.json"
     }
   ],
+  "composite": true,
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "target": "ES6",
+    "module": "ES6",
+    "strict": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
