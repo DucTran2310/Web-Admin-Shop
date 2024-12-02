@@ -2,11 +2,11 @@
 import { handleAPI } from "@/apis/handleAPI";
 import { COLORS } from "@/constants/colors";
 import { SUPPLIER_ROUTES } from "@/constants/routes";
-import { ModalSupplierModelType, SupplierFormValues } from "@/types/SupplierModelTypes"
+import { ModalSupplierModelType, SupplierFormValues } from "@/types/SupplierTypes";
 import { replaceName } from "@/utils/replaceName";
 import { uploadFile } from "@/utils/uploadFile";
-import { Avatar, Button, Form, Input, Modal, Select, Typography } from "antd"
-import { useRef, useState } from "react"
+import { Avatar, Button, Form, Input, Modal, Select, Typography } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 import { toast } from "react-toastify";
 
@@ -21,14 +21,21 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
 
   const [isLoading, setIsLoading] = useState(false)
   const [isTaking, setIsTaking] = useState<boolean>()
-  const [file, setFile] = useState()
+  const [file, setFile] = useState<File | string>()
 
   const [form] = Form.useForm()
   const inputRef = useRef<HTMLInputElement>(null)
 
+  useEffect(() => {
+    if (supplier) {
+      form.setFieldsValue(supplier)
+      setIsTaking(supplier.isTaking === 1)
+      setFile(supplier.photoUrl)
+    }
+  }, [supplier])
+
   const addNewSupplier = async (values: SupplierFormValues) => {
     setIsLoading(true)
-
     let data: Partial<SupplierFormValues> = {}
 
     for (const i in values) {
@@ -39,28 +46,26 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
     }
 
     if (file) {
-      console.log('VVVFILE: ', file)
       data = {
         ...data,
-        photoUrl: await uploadFile(file)
+        photoUrl: await uploadFile(file instanceof File ? file : new File([], file as string))
       }
     }
 
     data = {
       ...data,
-      price: (values.price.replace(/,/g, '') || '0'),  // Keep as string instead of converting to number
+      price: typeof values.price === 'string' ? values.price.replace(/,/g, '') : String(values.price),
       isTaking: isTaking ? 1 : 0,
       slug: replaceName(values.name)
     }
-
     try {
-      console.log(data)
-      const res = await handleAPI(SUPPLIER_ROUTES.ADD_NEW_SUPPLIER, data, 'post')
-      console.log('RES: ', res)
+      const res = await handleAPI(supplier ? `${SUPPLIER_ROUTES.UPDATE_SUPPLIER}?id=${supplier?._id}` : SUPPLIER_ROUTES.ADD_NEW_SUPPLIER, data, supplier ? 'put' : 'post')
       toast.success(res.message, {
         position: "top-right",
       });
-      onAddNew(res.data)
+      if (!supplier) {
+        onAddNew(res.data);
+      }
       handleClose()
     } catch (error) {
       console.log(error)
@@ -69,8 +74,19 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
     }
   }
 
+  const isValidImageUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   const handleClose = () => {
     form.resetFields()
+    setFile(undefined)
+    setIsTaking(undefined)
     onClose()
   }
 
@@ -81,8 +97,8 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
       onClose={handleClose}
       onCancel={handleClose}
       onOk={() => form.submit()}
-      title="Add supplier"
-      okText="Add supplier"
+      title={supplier ? "Update supplier" : "Add supplier"}
+      okText={supplier ? "Update" : "Add supplier"}
       cancelText="Discard"
       closable={!isLoading}
       okButtonProps={{
@@ -92,7 +108,7 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
       <label htmlFor="inpFile" className="p--2 mb-3 row flex items-center">
         {
           file ? (
-            <Avatar size={100} src={URL.createObjectURL(file)} />
+            <Avatar size={100} src={file instanceof File ? URL.createObjectURL(file) : (isValidImageUrl(file as string) ? file : undefined)} />
           ) : (
             <Avatar size={100}
               style={{
@@ -195,7 +211,7 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
           />
         </Form.Item>
         <Form.Item
-          name="contacts"
+          name="contact"
           label={
             <span>
               Contact Number<span style={{ color: 'red' }}> *</span>
@@ -212,11 +228,11 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
             }
           ]}
         >
-          <Input placeholder="Enter supplier contact number" allowClear 
+          <Input placeholder="Enter supplier contact number" allowClear
             onChange={(e) => {
               const value = e.target.value.replace(/,/g, '');
               if (/^\d*$/.test(value)) {
-                form.setFieldsValue({ contacts: value });
+                form.setFieldsValue({ contact: value });
               }
             }}
           />
