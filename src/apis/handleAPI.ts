@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { APIResponse } from "@/types/IResponse";
 import axiosClient from "./axiosClient";
 
