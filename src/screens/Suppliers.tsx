@@ -55,7 +55,8 @@ const Suppliers = () => {
     {
       key: 'ontheway',
       title: 'On The Way',
-      dataIndex: 'onTheWay'
+      dataIndex: 'active',
+      render: (active: number) => active ?? '-'
     },
     {
       key: 'buttonContainer',

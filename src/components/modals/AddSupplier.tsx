@@ -2,6 +2,7 @@
 import { handleAPI } from "@/apis/handleAPI";
 import { COLORS } from "@/constants/colors";
 import { SUPPLIER_ROUTES } from "@/constants/routes";
+import { generateFakeSupplierData } from "@/data/fakeData_Suppliers";
 import { ModalSupplierModelType, SupplierFormValues } from "@/types/SupplierTypes";
 import { replaceName } from "@/utils/replaceName";
 import { uploadFile } from "@/utils/uploadFile";
@@ -90,6 +91,35 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
     onClose()
   }
 
+
+  // const addFakeSuppliers = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     for (let i = 0; i < 100; i++) {
+  //       const fakeData = generateFakeSupplierData();
+  //       const data = {
+  //         ...fakeData,
+  //         slug: replaceName(fakeData.name)
+  //       };
+  //       console.log(data)
+
+
+  //       const res = await handleAPI(SUPPLIER_ROUTES.ADD_NEW_SUPPLIER, data, 'post');
+  //       if (res.data) {
+  //         onAddNew(res.data);
+  //       }
+  //     }
+  //     toast.success('Successfully added 100 fake suppliers!', {
+  //       position: "top-right",
+  //     });
+  //   } catch (error) {
+  //     console.error('Error adding fake suppliers:', error);
+  //     toast.error('Failed to add fake suppliers');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   return (
     <Modal
       width={700}
@@ -164,6 +194,36 @@ const AddSupplier: React.FC<ModalSupplierModelType> = ({
           }]}
         >
           <Input placeholder="Enter product" allowClear />
+        </Form.Item>
+        <Form.Item
+          name={'email'}
+          label={
+            <span>
+              Email<span style={{ color: 'red' }}> *</span>
+            </span>
+          }
+          rules={[
+            {
+              required: true,
+              message: 'Email is not empty'
+            },
+            {
+              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: 'Email is not valid',
+            }
+          ]}
+        >
+          <Input placeholder="Enter email" allowClear type="email" />
+        </Form.Item>
+        <Form.Item
+          name={'active'}
+          label={
+            <span>
+              Active<span style={{ color: 'red' }}> *</span>
+            </span>
+          }
+        >
+          <Input placeholder="Enter active" allowClear type="number" />
         </Form.Item>
         <Form.Item
           name={'categories'}

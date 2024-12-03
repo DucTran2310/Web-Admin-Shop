@@ -23,6 +23,9 @@ export interface SupplierModelType {
   product: string
   categories: any[]
   price: number
+  active: number
+  contact: string
+  email: string
   isTaking: number
   photoUrl: string
   creatdAt: string
