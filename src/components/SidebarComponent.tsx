@@ -48,7 +48,7 @@ const SidebarComponent = () => {
   ];
 
   return (
-    <Sider theme="light">
+    <Sider theme="light" style={{ height: '100vh' }}>
       <div className="p-2 flex items-center">
         <img
           src="https://firebasestorage.googleapis.com/v0/b/admin-shop-6e6a7.appspot.com/o/Logo_sm.png?alt=media&token=a27b16b6-a1ee-4beb-9faa-556788856b52"

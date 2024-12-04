@@ -1,7 +1,7 @@
 import { HeaderComponent, SidebarComponent } from "@/components";
 import { HomeScreen, Inventory, ManageStore, Orders, ReportScreen, Suppliers } from "@/screens";
 import { RouteConfig } from "@/types/RouteConfigType";
-import { Layout } from "antd";
+import { Affix, Layout } from "antd";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const { Content, Footer } = Layout;
@@ -17,10 +17,14 @@ export const ROUTES: RouteConfig[] = [
 
 const MainRouter: React.FC = () => (
   <BrowserRouter>
-    <Layout className="h-[100vh]">
-      <SidebarComponent />
+    <Layout>
+      <Affix offsetTop={0}>
+        <SidebarComponent />
+      </Affix>
       <Layout>
-        <HeaderComponent />
+        <Affix offsetTop={0}>
+          <HeaderComponent />
+        </Affix>
         <Content className="my-4 mx-8 container bg-white">
           <Routes>
             {ROUTES.map(({ path, element }) => (

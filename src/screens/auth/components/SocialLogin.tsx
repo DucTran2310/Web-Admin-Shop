@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { handleAPI } from "@/apis/handleAPI";
 import { auth } from "@/firebase/firebaseConfig";
 import { addAuth } from "@/redux/reducers/authReducer";
@@ -43,13 +44,6 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ text }) => {
               position: "top-right",
             })
             dispatch(addAuth(res.data));
-
-            // if (isRemember) {
-            // 	localStorage.setItem(
-            // 		localDataNames.authData,
-            // 		JSON.stringify(res.data)
-            // 	);
-            // }
           } catch (error: any) {
             console.log(error);
             toast.error(error.message, {

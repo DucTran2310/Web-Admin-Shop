@@ -22,6 +22,8 @@ const Suppliers = () => {
   const [listSuppliers, setListSuppliers] = useState<SupplierModelType[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [supplierSelected, setSupplierSelected] = useState<SupplierModelType>()
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const columns: ColumnProps<SupplierModelType>[] = [
     {
@@ -96,11 +98,14 @@ const Suppliers = () => {
   const getListSuppliers = async () => {
     setIsLoading(true)
     try {
-      const res = await handleAPI(SUPPLIER_ROUTES.GET_LIST_SUPPLIERS)
+      // const res = await handleAPI(`${SUPPLIER_ROUTES.GET_LIST_SUPPLIERS}?page=${page}&pageSize=${pageSize}`)
+      const res = await handleAPI(`${SUPPLIER_ROUTES.GET_LIST_SUPPLIERS}?page=${page}&pageSize=${pageSize}`)
       if (res.data) {
-        setListSuppliers(res.data)
+        setListSuppliers(res.data?.suppliers)
       }
     } catch (error: any) {
+      console.error(error)
+      console.log(error)
       toast.error(error.message)
     } finally {
       setIsLoading(false)
@@ -127,6 +132,10 @@ const Suppliers = () => {
         dataSource={listSuppliers}
         columns={columns}
         loading={isLoading}
+        onChange={(pagination) => {
+          setPage(pagination.current ?? 1)
+          setPageSize(pagination.pageSize ?? 10)
+        }}
         title={() => (
           <div className="row">
             <div className="col">
