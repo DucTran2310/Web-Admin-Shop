@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { handleAPI } from "@/apis/handleAPI";
+import { localDataNames } from "@/constants/appInfo";
 import { auth } from "@/firebase/firebaseConfig";
 import { addAuth } from "@/redux/reducers/authReducer";
+import { syncLocalStorage } from "@/utils/commonFunction";
 import { Button } from "antd";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
@@ -44,6 +46,7 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ text }) => {
               position: "top-right",
             })
             dispatch(addAuth(res.data));
+            syncLocalStorage(localDataNames.authData, res.data);
           } catch (error: any) {
             console.log(error);
             toast.error(error.message, {

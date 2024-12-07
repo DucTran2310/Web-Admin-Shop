@@ -7,6 +7,7 @@ export interface AuthData {
   _id: string
   name: string
   rule: number
+  photoUrl: string
 }
 
 interface AuthSliceState {
@@ -19,6 +20,7 @@ const initialState: AuthSliceState = {
     _id: "",
     name: "",
     rule: 0,
+    photoUrl: ""
   },
 }
 
